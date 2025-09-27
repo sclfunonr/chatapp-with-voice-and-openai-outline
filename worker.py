@@ -34,4 +34,23 @@ def text_to_speech(text, voice=""):
 
 
 def openai_process_message(user_message):
-    return None
+    """ Take in a prompt and pass it to OpenAI's GPT-3 API
+    to receive a response."""
+
+    # Set the prompt for OpenAI API
+    prompt="Act like a personal assistant. You can respond to questions, translate sentences, summarize news, and give recommendations."
+
+    # Call the OpenAI API to process our prompt
+    openai_response = openai_client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": system, "content": prompt},
+            {"role": "user", "content": user_message}
+        ],
+        max_tokens=4000
+    )
+    print("openai response:", openai_response)
+
+    # Parse the response to get the response message for our prompt
+    response_text = openai_response.choices[0].message.content
+    return response_text
