@@ -66,7 +66,7 @@ def openai_process_message(user_message):
     openai_response = openai_client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": system, "content": prompt},
+            {"role": "system", "content": prompt},
             {"role": "user", "content": user_message}
         ],
         max_tokens=4000
