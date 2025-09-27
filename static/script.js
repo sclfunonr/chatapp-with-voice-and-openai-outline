@@ -157,13 +157,24 @@ const populateBotResponse = async (userMessage) => {
   const repeatButtonID = getRandomID();
   botRepeatButtonIDToIndexMap[repeatButtonID] = responses.length - 1;
   hideBotLoadingAnimation();
-  // Append the random message to the message list
+//   // Append the random message to the message list
+//   $("#message-list").append(
+//     `<div class='message-line'><div class='message-box${
+//       !lightMode ? " dark" : ""
+//     }'>${
+//       response.openaiResponseText
+//     }</div><button id='${repeatButtonID}' class='btn volume repeat-button' onclick='playResponseAudio("data:audio/wav;base64," + responses[botRepeatButtonIDToIndexMap[this.id]].openaiResponseSpeech);console.log(this.id)'><i class='fa fa-volume-up'></i></button></div>`
+//   );
+  // 🔑 FIX IS HERE: Pass the base64Audio variable directly into the onclick string
+  // Use a string template to insert the variable, escaping the quotes around the Base64 string.
   $("#message-list").append(
     `<div class='message-line'><div class='message-box${
       !lightMode ? " dark" : ""
     }'>${
       response.openaiResponseText
-    }</div><button id='${repeatButtonID}' class='btn volume repeat-button' onclick='playResponseAudio("data:audio/wav;base64," + responses[botRepeatButtonIDToIndexMap[this.id]].openaiResponseSpeech);console.log(this.id)'><i class='fa fa-volume-up'></i></button></div>`
+    }</div><button id='${repeatButtonID}' class='btn volume repeat-button' 
+            onclick='playResponseAudio("data:audio/wav;base64,${base64Audio}");console.log(this.id)'
+            ><i class='fa fa-volume-up'></i></button></div>`
   );
 
   playResponseAudio("data:audio/wav;base64," + response.openaiResponseSpeech);
